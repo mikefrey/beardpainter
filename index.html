@@ -1,0 +1,20 @@
+<html>
+<head>
+  <title>Beard Painter</title>
+  <style>
+    canvas, img { position:absolute; left:25px; top:25px; }
+    canvas:hover { cursor:none; }
+  </style>
+</head>
+<body>
+  <canvas id="cvsNoBeard" width="500" height="646"></canvas>
+  <canvas id="cvsCursor" width="500" height="646"></canvas>
+
+  <div class="controls">
+    Brush size <input type="range" id="brushSize" min="10" max="100" step="1" value="30" />
+  </div>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
