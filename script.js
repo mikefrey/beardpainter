@@ -23,10 +23,17 @@ $(function(){
       brushSize = 10,
       brushType = 'paint',
       mousedown = false,
-      divisor = 10;
+      divisor = 10,
+      offset;
 
   cvsCursor.mousemove(function(ev){
     ctxCursor.clearRect(prevPos.x - brushSize*2, prevPos.y - brushSize*2, brushSize*4, brushSize*4);
+
+    if (ev.offsetX === undefined) {
+      offset = $(this).offset();
+      ev.offsetX = ev.pageX - offset.left;
+      ev.offsetY = ev.pageY - offset.top;
+    }
 
     var x = prevPos.x = ev.offsetX;
     var y = prevPos.y = ev.offsetY;
