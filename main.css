@@ -11,8 +11,16 @@ body {
   vertical-align:middle;
 }
 #header {
+  position:relative;
+  z-index:3;
+  margin:0 auto -140px auto;
   background:#F70;
-
+  width:90px;
+  height:0;
+  padding-top:140px;
+  border:3px solid #940;
+  border-top:0;
+  overflow:hidden;
 }
 #composition {
   -webkit-touch-callout: none;
@@ -23,13 +31,15 @@ body {
   user-select: none;
   display:inline-block;
   position:relative;
+  padding:1px;
+  background:#444;
   border-width:30px;
   border-style:solid;
   border-color:#111;
   border-color:rgba(0,0,0,.7);
 }
-#composition img { background:#999; }
 #composition canvas {
+  margin:1px;
   cursor:none;
   position:absolute;
   top:0;
@@ -38,8 +48,8 @@ body {
   height:100%;
 }
 #controls {
-  display:none;
-  -webkit-transform:rotate(90deg);
-  background:red;
+  -webkit-transform2:rotate(90deg);
+  background-color:#111;
+  background-color:rgba(0,0,0,.7);
   width:100%;
 }
