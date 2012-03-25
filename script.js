@@ -2,8 +2,9 @@ $(function(){
 
   var cvsCursor = $('#cvsCursor'),
       ctxCursor = cvsCursor[0].getContext('2d'),
-      ctxNoBeard = $('#cvsNoBeard')[0].getContext('2d');
-      //ctxBeard = $('#cvsBeard')[0].getContext('2d');
+      ctxNoBeard = $('#cvsNoBeard')[0].getContext('2d'),
+      cvsBrush = $('#cvsBrush'),
+      ctxBrush = cvsBrush[0].getContext('2d');
 
   var imgBeard = $('<img src="MikeBeard.jpg" alt="Beard"/>'),
       imgNoBeard = new Image();
@@ -13,6 +14,7 @@ $(function(){
     $('body').prepend(imgBeard);
     ctxNoBeard.drawImage(imgNoBeard,0,0);
     ctxNoBeard.globalCompositeOperation = 'destination-out';
+    calcBrushSize();
   };
 
 
@@ -53,8 +55,17 @@ $(function(){
     mousedown = false;
   });
 
-  brushSize = $('#brushSize').change(function(ev){
-    brushSize = $(this).val();
-  }).val();
+  var brushw = cvsBrush.width(),
+      brushh = cvsBrush.height();
+  brushSize = $('#brushSize').change(calcBrushSize).val();
+
+  function calcBrushSize(ev){
+    brushSize = $('#brushSize').val();
+    ctxBrush.clearRect(0,0,brushw,brushh);
+    ctxBrush.beginPath();
+    ctxBrush.arc(brushw/2, brushh/2, brushSize, 0, Math.PI*2, true);
+    ctxBrush.closePath();
+    ctxBrush.stroke();
+  }
 
 });
