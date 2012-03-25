@@ -11,18 +11,20 @@ $(function(){
 
   imgNoBeard.src = 'MikeNoBeard.jpg';
   imgNoBeard.onload = function(ev) {
-    $('body').prepend(imgBeard);
+    $('#composition').prepend(imgBeard);
     ctxNoBeard.drawImage(imgNoBeard,0,0);
-    ctxNoBeard.globalCompositeOperation = 'destination-out';
     calcBrushSize();
+    setBrushType();
   };
 
 
   var prevPos = {x:0,y:0},
       offset = cvsCursor.offset(),
       brushSize = 10,
+      brushType = 'paint',
       mousedown = false,
       divisor = 10;
+
   cvsCursor.mousemove(function(ev){
     ctxCursor.clearRect(prevPos.x - brushSize*2, prevPos.y - brushSize*2, brushSize*4, brushSize*4);
 
@@ -48,12 +50,18 @@ $(function(){
   }).mousedown(function(ev){
     mousedown = true;
   }).click(function(ev){
-
+    if (mousedown) console.log('Click!');
   });
 
   $('html').mouseup(function(ev){
     mousedown = false;
   });
+
+  $('input[name="brushType"]').click(setBrushType);
+
+
+
+  // Brush size
 
   var brushw = cvsBrush.width(),
       brushh = cvsBrush.height();
@@ -66,6 +74,19 @@ $(function(){
     ctxBrush.arc(brushw/2, brushh/2, brushSize, 0, Math.PI*2, true);
     ctxBrush.closePath();
     ctxBrush.stroke();
+  }
+
+
+  // Brush type
+
+  function setBrushType() {
+    if ($('#ctrlPaint').prop('checked')) {
+      brushType = 'paint';
+      ctxNoBeard.globalCompositeOperation = 'destination-out';
+    } else {
+      brushType = 'erase';
+      ctxNoBeard.globalCompositeOperation = 'source-over';
+    }
   }
 
 });

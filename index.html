@@ -7,12 +7,17 @@
   </style>
 </head>
 <body>
-  <canvas id="cvsNoBeard" width="500" height="646"></canvas>
-  <canvas id="cvsCursor" width="500" height="646"></canvas>
+  <div id="composition">
+    <canvas id="cvsNoBeard" width="500" height="646"></canvas>
+    <canvas id="cvsCursor" width="500" height="646"></canvas>
+  </div>
 
-  <div class="controls">
+  <div id="controls">
     Brush size <input type="range" id="brushSize" min="10" max="100" step="1" value="30" />
     <canvas id="cvsBrush" width="210" height="210"></canvas>
+
+    <label for="ctrlPaint">Paint</label> <input type="radio" id="ctrlPaint" name="brushType" checked />
+    <label for="ctrlErase">Erase</label> <input type="radio" id="ctrlErase" name="brushType" />
   </div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
