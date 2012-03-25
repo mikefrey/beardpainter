@@ -1,0 +1,45 @@
+html {
+  background:#222;
+  display:table;
+  width:100%;
+  height:100%;
+  text-align:center;
+}
+body {
+  display:table-cell;
+  padding:30px;
+  vertical-align:middle;
+}
+#header {
+  background:#F70;
+
+}
+#composition {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  display:inline-block;
+  position:relative;
+  border-width:30px;
+  border-style:solid;
+  border-color:#111;
+  border-color:rgba(0,0,0,.7);
+}
+#composition img { background:#999; }
+#composition canvas {
+  cursor:none;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+#controls {
+  display:none;
+  -webkit-transform:rotate(90deg);
+  background:red;
+  width:100%;
+}
