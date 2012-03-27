@@ -2,20 +2,33 @@ $(function(){
 
   var cvsCursor = $('#cvsCursor'),
       ctxCursor = cvsCursor[0].getContext('2d'),
-      ctxNoBeard = $('#cvsNoBeard')[0].getContext('2d'),
+      ctxActive = $('#cvsActive')[0].getContext('2d'),
+      ctxSurface = $('#cvsSurface')[0].getContext('2d'),
       cvsBrush = $('#cvsBrush'),
-      ctxBrush = cvsBrush[0].getContext('2d');
+      ctxBrush = cvsBrush[0].getContext('2d'),
+      imgActive;
 
-  var imgBeard = $('<img src="MikeBeard.jpg" alt="Beard"/>'),
+  var imgBeard = new Image(),
       imgNoBeard = new Image();
 
+  imgBeard.src = 'MikeBeard.jpg';
   imgNoBeard.src = 'MikeNoBeard.jpg';
-  imgNoBeard.onload = function(ev) {
-    $('#composition').prepend(imgBeard);
-    ctxNoBeard.drawImage(imgNoBeard,0,0);
+
+  function loadImage(image) {
+    var dfd = $.Deferred();
+    image.onload = function(ev) {
+      dfd.resolve();
+    }
+    return dfd.promise();
+  }
+
+  $.when(loadImage(imgBeard), loadImage(imgNoBeard)).done(function(){
+    $('#composition').prepend(imgNoBeard);
+    ctxSurface.drawImage(imgNoBeard,0,0);
+    //ctxActive.drawImage(imgBeard,0,0);
     calcBrushSize();
     setBrushType();
-  };
+  });
 
 
   var prevPos = {x:0,y:0},
@@ -44,12 +57,30 @@ $(function(){
     ctxCursor.stroke();
 
     if (mousedown) {
-      var grad = ctxNoBeard.createRadialGradient(x, y, brushSize/divisor - 1, x, y, brushSize);
+      ctxActive.globalCompositeOperation = 'source-over';
+      ctxActive.drawImage(imgActive, 0, 0);
+      ctxActive.globalCompositeOperation = 'destination-in';
+
+      var grad = ctxActive.createRadialGradient(x, y, brushSize/divisor - 1, x, y, brushSize);
       grad.addColorStop(0.0, 'rgba(0,0,0,1.0)');
       grad.addColorStop(0.7, 'rgba(0,0,0,0.4)');
-      grad.addColorStop(1.0, 'rgba(0,0,0,0.0)');
-      ctxNoBeard.fillStyle = grad;
-      ctxNoBeard.fillRect(0, 0, 500, 646);
+      grad.addColorStop(1.0, 'rgba(0,0,0,0)');
+      ctxActive.fillStyle = grad;
+      ctxActive.fillRect(0, 0, 500, 646);
+
+      var xx = x - brushSize - 10,
+          yy = y - brushSize - 10,
+          ww = brushSize*2 + 20,
+          hh = brushSize*2 + 20;
+
+      ctxSurface.drawImage(ctxActive.canvas, xx, yy, ww, hh, xx, yy, ww, hh);
+
+      ctxActive.globalCompositeOperation = 'source-over';
+      ctxActive.strokeStyle = '#FFFFFF';
+      ctxActive.beginPath();
+      ctxActive.rect(xx, yy, ww, hh);
+      ctxActive.closePath();
+      ctxActive.stroke();
     }
 
   }).mouseout(function(){
@@ -72,12 +103,13 @@ $(function(){
 
   var brushw = cvsBrush.width(),
       brushh = cvsBrush.height();
-  brushSize = $('#brushSize').change(calcBrushSize).val();
+  $('#brushSize').change(calcBrushSize);
 
   function calcBrushSize(ev){
-    brushSize = $('#brushSize').val();
+    brushSize = parseInt($('#brushSize').val(), 10);
     ctxBrush.clearRect(0,0,brushw,brushh);
     ctxBrush.beginPath();
+    ctxBrush.strokeStyle = '#FFFFFF';
     ctxBrush.arc(brushw/2, brushh/2, brushSize, 0, Math.PI*2, true);
     ctxBrush.closePath();
     ctxBrush.stroke();
@@ -89,10 +121,12 @@ $(function(){
   function setBrushType() {
     if ($('#ctrlPaint').prop('checked')) {
       brushType = 'paint';
-      ctxNoBeard.globalCompositeOperation = 'destination-out';
+      imgActive = imgBeard;
+      // ctxNoBeard.globalCompositeOperation = 'destination-out';
     } else {
       brushType = 'erase';
-      ctxNoBeard.globalCompositeOperation = 'source-over';
+      imgActive = imgNoBeard;
+      // ctxNoBeard.globalCompositeOperation = 'source-over';
     }
   }
 
