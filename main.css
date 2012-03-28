@@ -12,16 +12,7 @@ body {
   font: normal 12px/16px Arial, sans-serif;
 }
 #header {
-  position:relative;
-  z-index:3;
-  margin:0 auto -140px auto;
-  background:#F70;
-  width:90px;
-  height:0;
-  padding-top:140px;
-  border:3px solid #940;
-  border-top:0;
-  overflow:hidden;
+  display:none;
 }
 #composition {
   -webkit-touch-callout: none;
@@ -31,45 +22,121 @@ body {
   -ms-user-select: none;
   user-select: none;
   position:relative;
-  padding:1px;
-  width:500px;
+  z-index2:2;
+  width:502px;
   height:646px;
-  margin:20px auto;
-  background:#444;
-  border-width:30px;
-  border-style:solid;
-  border-color:#111;
-  border-color:rgba(0,0,0,.7);
+  margin:0 auto;
+  background-color:#111;
+  background-color:rgba(0,0,0,.7);
+  padding:30px 30px 0 30px;
 }
 #composition canvas {
   cursor:none;
   position:absolute;
-  top:1px;
-  left:1px;
+  top:30px;
+  left:30px;
 }
 #controls {
-  line-height:30px;
+  line-height:28px;
   position:relative;
-  width:542px;
-  border-width:10px;
-  border-style:solid;
-  border-color:#111;
-  border-color:rgba(0,0,0,.7);
-  margin:20px auto;
-  -webkit-transform2:rotate(90deg);
-  background-color:#444;
+  width:502px;
+  padding:20px 30px;
+  margin:0 auto;
+  background-color:#111;
   background-color:rgba(0,0,0,.7);
   color:#999;
+  z-index2:1;
 }
-#controls input { vertical-align:middle; }
-#cvsBrush {
+#controls:hover  { 
+  z-index2:3;
+}
+#controls::after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+#brushSize {
+  float:left;
+  margin:0;
+  height:30px;
+  width:100%;
+}
+#controls label:first-child {
+  display:block;
+  padding:0 250px 0 30px;
+  position:relative;
+  text-indent:-999em;
+}
+#controls label:first-child::before,
+#controls label:first-child::after {
+  position:absolute;
+  content:"";
+  display:inline-block;
+  vertical-align:middle;
+  width:6px;
+  height:6px;
+  border:1px solid #555;
+  top:11px;
+  left:10px;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  border-radius:50%;
+}
+#controls label:first-child::after {
+  width:26px;
+  height:26px;
+  border-width:2px;
+  top:0;
+  right:210px;
+  left:auto;
+}
+#controls input[type="radio"] {
+  position:absolute;
+  top:-99999em;
+}
+#controls input[type="radio"] + label {
+  position:absolute;
+  top:19px;
+  width:90px;
+  background:#333;
+  border:1px solid #333;
+  background-color: #000;
+  background-image: -moz-linear-gradient(top,  rgba(0,0,0,.3) 0%, rgba(255,255,255,.3) 6%, rgba(255,255,255,.15) 50%, rgba(255,255,255,0) 51%, rgba(255,255,255,.1) 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,.3)), color-stop(6%,rgba(255,255,255,.3)), color-stop(50%,rgba(255,255,255,.15)), color-stop(51%,rgba(255,255,255,0)), color-stop(100%,rgba(255,255,255,.1)));
+  background-image: -webkit-linear-gradient(top,  rgba(0,0,0,.3) 0%,rgba(255,255,255,.3) 6%,rgba(255,255,255,.15) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,.1) 100%);
+  background-image: -o-linear-gradient(top,  rgba(0,0,0,.3) 0%,rgba(255,255,255,.3) 6%,rgba(255,255,255,.15) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,.1) 100%);
+  background-image: -ms-linear-gradient(top,  rgba(0,0,0,.3) 0%,rgba(255,255,255,.3) 6%,rgba(255,255,255,.15) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,.1) 100%);
+  background-image: linear-gradient(top,  rgba(0,0,0,.3) 0%,rgba(255,255,255,.3) 6%,rgba(255,255,255,.15) 50%,rgba(255,255,255,0) 51%,rgba(255,255,255,.1) 100%);
+  -webkit-border-radius:2px;
+  -moz-border-radius:2px;
+  border-radius:2px;
+}
+#controls input[type="radio"]:checked + label {
+  background-color:#024;
+}
+#controls label[for="ctrlPaint"] {
+  right:130px;
+}
+#controls label[for="ctrlErase"] {
+  right:30px;
+}
+#cvsBrush,
+#controls:hover #cvsBrush:hover {
+  opacity:0;
   position:absolute;
   bottom:100%;
-  right:20px;
-  margin-bottom:60px;
-  background:#444;
-  background:rgba(100,100,100,.7);
-  border:1px solid #444;
+  right:5px;
+  margin-bottom:25px;
+  background:#111;
+  background:rgba(0,0,0,.7);
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  clip:rect(105px,105px,105px,105px);
 }
-
-#composition canvas#cvsActive { left:500px; }
+#brushSize:hover + #cvsBrush {
+  opacity:1;
+  clip:rect(0,210px,210px,0);
+}
